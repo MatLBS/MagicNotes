@@ -1,0 +1,62 @@
+{
+  "expo": {
+    "name": "MagicNotes",
+    "slug": "MagicNotes",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+	"scheme": "magicnotes",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.matlebr.magicnotes"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.matlebr.magicnotes"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+	  [
+		"@react-native-google-signin/google-signin",
+		{
+			"iosUrlScheme": "com.googleusercontent.apps.808284733976-7nmojgeiopkgda1jqjs5u5svmq4ipe56"
+		}
+	  ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "93369e7a-bc23-4965-b46b-dfcd2395cbcf"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/93369e7a-bc23-4965-b46b-dfcd2395cbcf"
+    }
+  }
+}
