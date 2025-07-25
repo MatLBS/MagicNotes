@@ -1,12 +1,7 @@
 import { icons } from "@/constants/icons";
 import { router } from "expo-router";
-import React, { useEffect, useState } from "react";
-// import {
-// 	GoogleSignin,
-// 	isSuccessResponse,
-// 	// isErrorWithCode,
-// 	// statusCodes,
-// } from "@react-native-google-signin/google-signin";
+import React, { useState } from "react";
+
 import {
   Image,
   SafeAreaView,

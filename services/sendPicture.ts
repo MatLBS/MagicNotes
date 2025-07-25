@@ -33,7 +33,7 @@ export const sendImageToServer = async (
       body: formData,
     });
     const text = await response.text();
-    // console.log("Réponse brute :", text);
+    console.log("Réponse brute :", text);
     if (!response.ok) {
     	throw new Error(`Erreur HTTP : ${response.status}`);
     } else

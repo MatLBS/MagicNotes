@@ -30,7 +30,6 @@ const TabIcon = ({focused, icon, title}: any) => {
 
 
 const _Layout = () => {
-
 	return (
 		<Tabs
 			screenOptions={{

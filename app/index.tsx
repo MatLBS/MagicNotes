@@ -4,7 +4,6 @@ import React from "react";
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 
 export default function WelcomeScreen() {
-
   return (
     <SafeAreaView className="flex-1 bg-black">
       <StatusBar style="light" />

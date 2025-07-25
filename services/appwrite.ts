@@ -69,7 +69,6 @@ export const createUserDbGoogle = async (
 		email: email,
 		authId: authId,
 	});
-	console.log("user.$id:", user.$id);
     await SecureStore.setItemAsync("userId", user.$id);
     await SecureStore.setItemAsync("authId", authId);
     return true;

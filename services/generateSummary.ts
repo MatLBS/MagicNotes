@@ -6,8 +6,6 @@ export const generateSummary = async (
 
   try {
 	console.log("---------------------------------");
-	console.log("Envoi des notes pour résumé :", notes);
-	console.log(URL_BACKEND_SUMMARY);
 	// const response = await fetch("http://192.168.1.14:8000/generateSummary", {
 	const response = await fetch(URL_BACKEND_SUMMARY, {
 	  method: "POST",

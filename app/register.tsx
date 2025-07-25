@@ -7,12 +7,10 @@ import {
   View,
   Text,
   Image,
-  TextInput,
   TouchableOpacity,
 } from 'react-native';
 
 import InputField from '../components/InputField';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import RegistrationSVG from '@/assets/images/registration.svg';

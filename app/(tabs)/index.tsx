@@ -113,7 +113,7 @@ export default function Index() {
         </CameraView>
 		<View className="absolute top-16 left-5">
             <TouchableOpacity onPress={toggleCameraFacing}>
-              <Image source={icons.flip} className="w-8 h-8" tintColor="#fff" />
+              <Image source={icons.flipCamera} className="w-8 h-8" tintColor="#fff" />
             </TouchableOpacity>
         </View>
 		<View className="absolute bottom-32 left-0 right-0 flex items-center">
