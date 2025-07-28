@@ -26,11 +26,15 @@ export default function ProfileScreen() {
       const id = await SecureStore.getItemAsync("userId");
       const authId = await SecureStore.getItemAsync("authId");
       setUserId(id);
-      if (id && authId) {
-        const user = await getUserInfo(id, authId);
+	  console.log("User ID:", id);
+	  console.log("Auth ID:", authId);
+      if (id) {
+        const user = await getUserInfo(id, authId!);
+        console.log("User info:", user);
         setUserInfo(user);
       }
     };
+    console.log("Fetching user ID...");
     fetchUserId();
   }, []); // S'exécute une fois au montage
 

@@ -50,7 +50,7 @@ export const createUserDb = async (
         email: email,
       });
     }
-    await SecureStore.setItemAsync("userId", user.id);
+    await SecureStore.setItemAsync("userId", user.$id);
     return true;
   } catch (error) {
     console.log(error);
@@ -111,10 +111,12 @@ export const loginUserDb = async (
 export const getUserInfo = async (userId: string, authId: string) => {
   try {
     let result;
-	result = await database.listDocuments(DATABASE_ID, USERS_ID, [
-		Query.equal("authId", [authId]),
-	]);
-    if (result.documents.length === 0) {
+
+	if (authId){
+		result = await database.listDocuments(DATABASE_ID, USERS_ID, [
+			Query.equal("authId", [authId]),
+		]);
+	} else {
 		result = await database.listDocuments(DATABASE_ID, USERS_ID, [
 			Query.equal("$id", [userId]),
 		]);

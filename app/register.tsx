@@ -10,6 +10,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import { googleConnection, facebookConnection } from "@/services/appwrite"
+
 import InputField from '../components/InputField';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -56,7 +58,7 @@ const RegisterScreen = () => {
             marginBottom: 30,
           }}>
           <TouchableOpacity
-            onPress={() => {}}
+            onPress={() => googleConnection()}
             style={{
               borderColor: '#ddd',
               borderWidth: 2,
@@ -67,7 +69,7 @@ const RegisterScreen = () => {
             <GoogleSVG height={24} width={24} />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => {}}
+            onPress={() => facebookConnection()}
             style={{
               borderColor: '#ddd',
               borderWidth: 2,
