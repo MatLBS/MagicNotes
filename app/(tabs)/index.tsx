@@ -1,7 +1,7 @@
 import BottomSheet, { BottomSheetRefProps } from "@/components/BottomSheet";
 import PhotoPreviewSection from "@/components/PhotoPreviewSections";
 import { icons } from "@/constants/icons";
-import { generateSummary } from "@/services/generateSummary"
+import { generateSummary } from "@/services/generateSummary";
 import { createNote } from "@/services/appwrite";
 import { sendImageToServer } from "@/services/sendPicture";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
@@ -109,59 +109,57 @@ export default function Index() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
-        </CameraView>
-		<View className="absolute top-16 left-5">
-            <TouchableOpacity onPress={toggleCameraFacing}>
-              <Image source={icons.flipCamera} className="w-8 h-8" tintColor="#fff" />
-            </TouchableOpacity>
-        </View>
-		<View className="absolute bottom-32 left-0 right-0 flex items-center">
-            <TouchableOpacity
-              style={styles.takePhotoBtn}
-              onPress={handleTakePhoto}
+        <CameraView
+          style={styles.camera}
+          facing={facing}
+          ref={cameraRef}
+        ></CameraView>
+        <View className="absolute top-16 left-5">
+          <TouchableOpacity onPress={toggleCameraFacing}>
+            <Image
+              source={icons.flipCamera}
+              className="w-8 h-8"
+              tintColor="#fff"
             />
+          </TouchableOpacity>
         </View>
-          <View className="absolute top-16 right-5">
-            <TouchableOpacity onPress={onPress}>
-              <Image source={icons.list} className="w-9 h-9" tintColor="#fff" />
-            </TouchableOpacity>
+        <View className="absolute bottom-32 left-0 right-0 flex items-center">
+          <TouchableOpacity
+            style={styles.takePhotoBtn}
+            onPress={handleTakePhoto}
+          />
+        </View>
+        <View className="absolute top-16 right-5">
+          <TouchableOpacity onPress={onPress}>
+            <Image source={icons.list} className="w-9 h-9" tintColor="#fff" />
+          </TouchableOpacity>
         </View>
         <BottomSheet ref={ref}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={{ flex: 1, backgroundColor: "white" }}>
-				<View style={{ alignItems: "center", marginTop: 20 }}>
-					<TextInput
-					style={{
-						width: "60%",
-						height: 40,
-						paddingHorizontal: 12,
-						borderRadius: 8,
-						borderWidth: 1,
-						borderColor: "#bbb",
-						fontSize: 18,
-						backgroundColor: "#f5f5f5",
-						textAlign: "center",
-					}}
-					onChangeText={setNoteName}
-					placeholder="Nom de la note"
-					placeholderTextColor="#888"
-					value={noteName}
-					/>
-				</View>
-              {/* <Text
-                style={{
-                  color: "#000",
-                  textAlign: "center",
-                  marginTop: 20,
-                  fontSize: 18,
-                }}
-              >
-                Vos notes :
-              </Text> */}
+              <View style={{ alignItems: "center", marginTop: 20 }}>
+                <TextInput
+                  style={{
+                    width: "60%",
+                    height: 40,
+                    paddingHorizontal: 12,
+                    borderRadius: 8,
+                    borderWidth: 1,
+                    borderColor: "#bbb",
+                    fontSize: 18,
+                    backgroundColor: "#f5f5f5",
+                    textAlign: "center",
+                  }}
+                  onChangeText={setNoteName}
+                  placeholder="Nom de la note"
+                  placeholderTextColor="#888"
+                  value={noteName}
+                />
+              </View>
               <ScrollView
                 style={{ flex: 1, margin: 20 }}
                 keyboardShouldPersistTaps="handled"
+                className="max-h-[500px] rounded-lg"
               >
                 <TextInput
                   style={styles.input}
@@ -169,45 +167,49 @@ export default function Index() {
                   value={noteText}
                   multiline={true}
                   textAlignVertical="top"
-				  placeholder="Vos notes..."
-				  placeholderTextColor="#888"
+                  placeholder="Vos notes..."
+                  placeholderTextColor="#888"
                 />
+              </ScrollView>
+			  <View className="flex items-center justify-center">
 				<TouchableOpacity
-                  style={styles.sendButton}
-                  onPress={async () => {
+					style={styles.sendButton}
+					onPress={async () => {
 					if (!noteText.trim())
-						return alert("Veuillez entrer du texte avant de générer un résumé.");
-                    const summary = await generateSummary(noteText);
-                    setNoteText(summary!);
-                  }}
-                >
+						return alert(
+						"Veuillez entrer du texte avant de générer un résumé."
+						);
+					const summary = await generateSummary(noteText);
+					setNoteText(summary!);
+					}}
+				>
 					<View className="flex flex-row items-center gap-4">
-						<Text className="text-white text-lg">
-              				Générer un résumé avec l&apos;IA
-						</Text>
-						<Image
-							source={icons.stars}
-							className="w-8 h-8"
-							tintColor="#fff"
-						/>
+					<Text className="text-white text-lg">
+						Générer un résumé avec l&apos;IA
+					</Text>
+					<Image
+						source={icons.stars}
+						className="w-8 h-8"
+						tintColor="#fff"
+					/>
 					</View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.sendButton}
-                  onPress={() => {
-                    createNote(noteText, noteName, noteId, userId);
-                    setNoteText("");
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={styles.sendButton}
+					onPress={() => {
+					createNote(noteText, noteName, noteId, userId);
+					setNoteText("");
 					setNoteName("");
 					setNoteId("");
-                  }}
-                >
-                  <Image
-                    source={icons.send}
-                    className="w-8 h-8"
-                    tintColor="#fff"
-                  />
-                </TouchableOpacity>
-              </ScrollView>
+					}}
+				>
+					<Image
+					source={icons.send}
+					className="w-8 h-8"
+					tintColor="#fff"
+					/>
+				</TouchableOpacity>
+			  </View>
             </View>
           </TouchableWithoutFeedback>
         </BottomSheet>
@@ -248,10 +250,10 @@ const styles = StyleSheet.create({
     borderColor: "purple",
   },
   input: {
-    minHeight: 200,
+    minHeight: 500,
     padding: 15,
     borderWidth: 1,
-    borderColor: "#e0e0e0",
+    borderColor: "#ffffffff",
     borderRadius: 12,
     backgroundColor: "#f8f9fa",
     fontSize: 16,
@@ -273,5 +275,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: "center",
     marginTop: 8,
+	width: "80%",
   },
 });
