@@ -62,6 +62,7 @@ export default function ProfileScreen() {
         style: "destructive",
         onPress: async () => {
           await SecureStore.deleteItemAsync("userId");
+          await SecureStore.deleteItemAsync("authId");
           router.push("/login");
         },
       },
