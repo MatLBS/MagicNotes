@@ -1,6 +1,7 @@
 import { icons } from "@/constants/icons";
 import { router } from "expo-router";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 import {
   Image,
@@ -23,6 +24,13 @@ const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      iosClientId: "197139425413-sk3qv01sgjq5aj8sfuu8qeeacoskldmb.apps.googleusercontent.com",
+      webClientId: "197139425413-o3eh4ntpf1ade0gt1brf2lmv0ekbukcd.apps.googleusercontent.com",
+    });
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>

@@ -14,6 +14,10 @@ import {
   Dimensions,
 } from "react-native";
 
+import {
+  GoogleSignin,
+} from '@react-native-google-signin/google-signin';
+
 const { height } = Dimensions.get("screen");
 
 export default function ProfileScreen() {
@@ -63,6 +67,7 @@ export default function ProfileScreen() {
         onPress: async () => {
           await SecureStore.deleteItemAsync("userId");
           await SecureStore.deleteItemAsync("authId");
+          await GoogleSignin.signOut();
           router.push("/login");
         },
       },
