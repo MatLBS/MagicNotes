@@ -39,7 +39,7 @@ export default function Index() {
   const params = useLocalSearchParams();
 
   const onPress = useCallback(() => {
-    ref?.current?.scrollTo(-200);
+    ref?.current?.scrollTo(-400);
   }, []);
 
   useEffect(() => {
@@ -59,7 +59,7 @@ export default function Index() {
         setNoteId(params.noteId as string);
         // Ouvrir automatiquement la BottomSheet avec le texte
         setTimeout(() => {
-          ref?.current?.scrollTo(-200);
+          ref?.current?.scrollTo(-400);
         }, 100);
       }
     }, [params.noteText, params.noteName, params.noteId])
@@ -159,7 +159,7 @@ export default function Index() {
               <ScrollView
                 style={{ flex: 1, margin: 20 }}
                 keyboardShouldPersistTaps="handled"
-                className="max-h-[500px] rounded-lg"
+                className="max-h-[400px] rounded-lg"
               >
                 <TextInput
                   style={styles.input}

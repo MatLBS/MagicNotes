@@ -10,14 +10,13 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { googleConnection, facebookConnection } from "@/services/appwrite"
+import { googleConnection } from "@/services/appwrite"
 
 import InputField from '../components/InputField';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import RegistrationSVG from '@/assets/images/registration.svg';
 import GoogleSVG from '@/assets/images/google.svg';
-import FacebookSVG from '@/assets/images/facebook.svg';
 import {CustomButtonRegister} from '@/components/CustomButtom';
 
 const RegisterScreen = () => {
@@ -54,7 +53,7 @@ const RegisterScreen = () => {
         <View
           style={{
             flexDirection: 'row',
-            justifyContent: 'space-around',
+            justifyContent: 'center',
             marginBottom: 30,
           }}>
           <TouchableOpacity
@@ -67,17 +66,6 @@ const RegisterScreen = () => {
               paddingVertical: 10,
             }}>
             <GoogleSVG height={24} width={24} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => facebookConnection()}
-            style={{
-              borderColor: '#ddd',
-              borderWidth: 2,
-              borderRadius: 10,
-              paddingHorizontal: 30,
-              paddingVertical: 10,
-            }}>
-            <FacebookSVG height={24} width={24} />
           </TouchableOpacity>
         </View>
 

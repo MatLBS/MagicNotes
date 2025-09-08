@@ -5,13 +5,16 @@ import React, { useState } from "react";
 import {
   Dimensions,
   Image,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   Modal,
+  TextInput,
+  Alert,
 } from "react-native";
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 
 import Animated, {
   interpolate,
@@ -51,19 +54,47 @@ const RegularContent = ({item}: Props) => {
   return (
 	<View style={styles.itemContainer}>
 		<Text style={styles.titleText}>{item.name}</Text>
-		<ScrollView
-			style={styles.notesScrollContainer}
-			showsVerticalScrollIndicator={false}
-			nestedScrollEnabled={true}
-		>
-			<Text style={styles.notesText}>{item.notes}</Text>
-		</ScrollView>
+		<TextInput
+			style={styles.notesTextInput}
+			value={item.notes}
+			multiline={true}
+			editable={false}
+			scrollEnabled={true}
+		/>
 	</View>
   );
 };
 
 const FlippedContent = ({item, fetchUserNotes}: Props) => {
 	const [modalVisible, setModalVisible] = useState(false);
+
+	const handleShare = async () => {
+		try {
+			// Créer le nom du fichier (nettoyé)
+			const fileName = `${item.name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.txt`;
+			const fileUri = `${FileSystem.documentDirectory}${fileName}`;
+			
+			// Écrire le fichier
+			await FileSystem.writeAsStringAsync(fileUri, item.notes, {
+				encoding: FileSystem.EncodingType.UTF8,
+			});
+			
+			// Vérifier si le partage est disponible
+			const isAvailable = await Sharing.isAvailableAsync();
+			if (isAvailable) {
+				await Sharing.shareAsync(fileUri, {
+					mimeType: 'text/plain',
+					dialogTitle: `Partager la note "${item.name}"`,
+				});
+			} else {
+				Alert.alert('Erreur', 'Le partage de fichiers n\'est pas disponible sur cet appareil');
+			}
+		} catch (error) {
+			console.error('Erreur lors du partage du fichier:', error);
+			Alert.alert('Erreur', 'Impossible de partager le fichier');
+		}
+	};
+
 
   return (
 	<View style={styles.itemContainer}>
@@ -121,6 +152,15 @@ const FlippedContent = ({item, fetchUserNotes}: Props) => {
 				className="w-10 h-10 mt-3"
 				style={{ marginRight: 5 }}
 			/>
+			</TouchableOpacity>
+			<TouchableOpacity
+				onPress={handleShare}
+			>
+				<Image
+					source={icons.send}
+					className="w-10 h-10"
+					tintColor="white"
+				/>
 			</TouchableOpacity>
 			<TouchableOpacity
 			onPress={() => {
@@ -235,18 +275,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 8,
   },
-  notesScrollContainer: {
+  notesTextInput: {
     flex: 1,
     width: "100%",
     maxHeight: 220,
-  },
-  notesText: {
+    backgroundColor: 'transparent',
     color: "#fff",
     fontSize: 14,
     lineHeight: 20,
     textAlign: "left",
     paddingHorizontal: 8,
     paddingVertical: 4,
+    textAlignVertical: 'top',
   },
   regularCard: {
     position: 'absolute',

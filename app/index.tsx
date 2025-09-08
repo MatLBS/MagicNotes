@@ -1,41 +1,160 @@
+import { icons } from "@/constants/icons";
 import { router } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import * as SecureStore from "expo-secure-store";
 
-export default function WelcomeScreen() {
+import {
+  Image,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+
+import { googleConnection } from "@/services/appwrite"
+
+import GoogleSVG from "@/assets/images/google.svg";
+import LoginSVG from "@/assets/images/login.svg";
+
+import { CustomButtonLogin } from "@/components/CustomButtom";
+import InputField from "../components/InputField";
+
+const LoginScreen = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAutoLogin = async () => {
+      try {
+        const userId = await SecureStore.getItemAsync("userId");
+        if (userId) {
+          router.replace("/(tabs)");
+          return;
+        }
+      } catch (error) {
+        console.log("Error checking auto-login:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAutoLogin();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>Chargement...</Text>
+      </SafeAreaView>
+    );
+  }
+
   return (
-    <SafeAreaView className="flex-1 bg-black">
-      <StatusBar style="light" />
-      <View className="flex-1 justify-center items-center px-6">
-        {/* Logo/Titre principal */}
-        <View className="items-center mb-16">
-          <Text className="text-white text-5xl font-bold mb-4">MagicNotes</Text>
-          <Text className="text-gray-400 text-xl text-center leading-relaxed">
-            Transformez vos photos en notes{"\n"}
-            avec l&apos;intelligence artificielle
-          </Text>
+    <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
+      <View style={{ paddingHorizontal: 25 }}>
+        <View style={{ alignItems: "center" }}>
+          <LoginSVG
+            height={300}
+            width={300}
+            style={{ transform: [{ rotate: "-5deg" }] }}
+          />
         </View>
 
-        {/* Boutons d'action */}
-        <View className="w-full">
+        <Text
+          style={{
+            fontFamily: "Roboto-Medium",
+            fontSize: 28,
+            fontWeight: "500",
+            color: "#333",
+            marginBottom: 30,
+          }}
+        >
+          Login
+        </Text>
+        {error ? (
+          <Text style={{ color: "red", marginVertical: 8 }}>{error}</Text>
+        ) : null}
+        <InputField
+          placeholder="yours@email.com"
+          label={"Email ID"}
+          value={email}
+          onChangeText={setEmail}
+          icon={
+            <Image
+              source={icons.email}
+              className="w-5 h-5"
+              style={{ marginRight: 5 }}
+            />
+          }
+          keyboardType="email-address"
+        />
+
+        <InputField
+          label={"Password"}
+          placeholder="enter password"
+          value={password}
+          onChangeText={setPassword}
+          icon={
+            <Image
+              source={icons.password}
+              className="w-5 h-5"
+              style={{ marginRight: 5 }}
+            />
+          }
+          inputType="password"
+        />
+
+        <CustomButtonLogin
+          label={"Login"}
+          email={email}
+          password={password}
+          setError={setError}
+        />
+
+        <Text style={{ textAlign: "center", color: "#666", marginBottom: 30 }}>
+          Or, login with ...
+        </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            marginBottom: 30,
+          }}
+        >
           <TouchableOpacity
-            className="bg-blue-600 p-4 rounded-xl"
-            onPress={() => router.push("./login")}
+            onPress={() => googleConnection()}
+            style={{
+              borderColor: "#ddd",
+              borderWidth: 2,
+              borderRadius: 10,
+              paddingHorizontal: 30,
+              paddingVertical: 10,
+            }}
           >
-            <Text className="text-white text-center text-lg font-semibold">
-              Se connecter
-            </Text>
+            <GoogleSVG height={24} width={24} />
           </TouchableOpacity>
         </View>
 
-        {/* Texte informatif */}
-        <View className="mt-12 px-4">
-          <Text className="text-gray-500 text-center text-sm leading-relaxed">
-            Connectez-vous pour commencer à utiliser vos notes
-          </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            marginBottom: 30,
+          }}
+        >
+          <Text>New to the app?</Text>
+          <TouchableOpacity onPress={() => router.navigate("./register")}>
+            <Text style={{ color: "#AD40AF", fontWeight: "700" }}>
+              {" "}
+              Register
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
   );
-}
+};
+
+export default LoginScreen;

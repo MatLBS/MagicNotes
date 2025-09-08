@@ -62,7 +62,7 @@ export default function ProfileScreen() {
         style: "destructive",
         onPress: async () => {
           await SecureStore.deleteItemAsync("userId");
-          router.push("/login");
+          router.push("/register");
         },
       },
     ]);
@@ -70,26 +70,46 @@ export default function ProfileScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-black">
-      <ScrollView className="flex-1 px-6 py-8">
-        <View className="items-center mb-8 ">
-          <View className="w-24 h-24 bg-gray-800 rounded-full mb-4 justify-center items-center">
+      <View className="flex-1 px-6 py-8">
+        <View className="items-center mb-6">
+          <View 
+            className="bg-gray-800 rounded-full mb-4 justify-center items-center"
+            style={{ 
+              width: Math.min(96, height * 0.12), 
+              height: Math.min(96, height * 0.12) 
+            }}
+          >
             <Text className="text-white text-2xl font-bold">👤</Text>
           </View>
-          <Text className="text-white text-xl font-semibold">
+          <Text 
+            className="text-white font-semibold text-center px-4"
+            style={{ fontSize: Math.min(20, height * 0.025) }}
+          >
             {userInfo?.username}
           </Text>
-          <Text className="text-gray-400 text-base">{userInfo?.email}</Text>
+          <Text 
+            className="text-gray-400 text-center px-4"
+            style={{ fontSize: Math.min(16, height * 0.02) }}
+          >
+            {userInfo?.email}
+          </Text>
         </View>
 
-        <View style={{ height: height * 0.6 }}>
+        <View style={{ flex: 1, minHeight: height * 0.4 }}>
 			<View style={{ flex: 1 }}>
-				<Text className="text-white text-lg font-semibold mb-4 px-2 text-center">
+				<Text 
+					className="text-white font-semibold mb-4 px-2 text-center"
+					style={{ fontSize: Math.min(18, height * 0.022) }}
+				>
 				{userNotes?.length || 0} Notes créées
 				</Text>
-				<View>
+				<View style={{ height: 360, marginBottom: 40 }}>
 					<FlatList
-						style={{ height: "100%" }}
-						
+						style={{ flex: 1 }}
+						contentContainerStyle={{ 
+							alignItems: 'center',
+							paddingHorizontal: 10
+						}}
 						data={userNotes}
 						renderItem={({ item, index }) => (
 						<SliderItem
@@ -104,17 +124,21 @@ export default function ProfileScreen() {
 					/>
 				</View>
 			</View>
-
-			<TouchableOpacity
-				className="bg-red-600 rounded-xl p-4 mb-4"
-				onPress={handleLogout}
-			>
-				<Text className="text-white text-center text-base font-semibold">
-				Se déconnecter
-				</Text>
-			</TouchableOpacity>
 		</View>
-      </ScrollView>
+        
+        <TouchableOpacity
+          className="bg-red-600 rounded-xl mb-8 mx-4"
+          style={{ paddingVertical: Math.max(12, height * 0.015), paddingHorizontal: 16 }}
+          onPress={handleLogout}
+        >
+          <Text 
+            className="text-white text-center font-semibold"
+            style={{ fontSize: Math.min(16, height * 0.02) }}
+          >
+          Se déconnecter
+          </Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
