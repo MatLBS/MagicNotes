@@ -1,50 +1,93 @@
-# Welcome to your Expo app 👋
+# 🇫🇷 Magic Notes
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**Si ce projet vous plaît, n'hésitez pas à mettre une étoile ⭐️ !**
 
-## Get started
+## Introduction
 
-1. Install dependencies
+Magic Notes est une application pensée pour toutes celles et ceux qui aiment prendre des notes, mais qui trouvent ce processus trop chronophage.  
+Grâce à Magic Notes, il suffit de prendre une photo : l’application détecte et retranscrit automatiquement tous les mots surlignés (quelle que soit leur couleur), pour en faire une note partageable en quelques secondes.
 
-   ```bash
-   npm install
-   ```
+## Fonctionnalités principales
 
-2. Start the app
+- Prise de notes rapide par capture photo
+- Reconnaissance et transcription des mots surlignés (toutes couleurs)
+- Création automatique de notes partageables
 
-   ```bash
-   npx expo start
-   ```
+## Technologies utilisées
 
-In the output, you'll find options to open the app in a
+- **Front-end** : React Native / Expo / Tailwind
+- **Back-end** : Python / OpenAI API
+- **Base de données** : Appwrite
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Lien vers le backend
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+👉 [@MatLBS/backend-magicnotes](https://github.com/MatLBS/backend-magicnotes)
 
-## Get a fresh project
+## Installation
 
-When you're ready, run:
+Clonez ce dépôt puis installez les dépendances :
 
 ```bash
-npm run reset-project
+git clone https://github.com/MatLBS/MagicNotes.git
+cd MagicNotes
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Lancez le projet :
 
-## Learn more
+```bash
+npm start
+```
+ou avec Expo :
+```bash
+expo start
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+---
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+# 🇬🇧 Magic Notes
 
-## Join the community
+**If you like this project, feel free to give it a star ⭐️ !**
 
-Join our community of developers creating universal apps.
+## Introduction
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Magic Notes is an app designed for those who love taking notes but want to save time.  
+With Magic Notes, just snap a photo: the app automatically detects and transcribes any highlighted words—regardless of color—making it easy to create shareable notes in seconds.
+
+## Main Features
+
+- Quick note-taking via photo capture
+- Recognition and transcription of highlighted words (any color)
+- Automatic creation of shareable notes
+
+## Technologies
+
+- **Front-end**: React Native / Expo / Tailwind
+- **Back-end**: Python / OpenAI API
+- **Database**: Appwrite
+
+## Backend link
+
+👉 [@MatLBS/backend-magicnotes](https://github.com/MatLBS/backend-magicnotes)
+
+## Installation
+
+Clone this repository and install dependencies:
+
+```bash
+git clone https://github.com/MatLBS/MagicNotes.git
+cd MagicNotes
+npm install
+```
+
+Start the project:
+
+```bash
+npm start
+```
+or with Expo:
+```bash
+expo start
+```
+
+---

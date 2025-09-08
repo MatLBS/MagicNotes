@@ -14,6 +14,10 @@ import {
   Dimensions,
 } from "react-native";
 
+import {
+  GoogleSignin,
+} from '@react-native-google-signin/google-signin';
+
 const { height } = Dimensions.get("screen");
 
 export default function ProfileScreen() {

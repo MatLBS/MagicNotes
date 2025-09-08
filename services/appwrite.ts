@@ -11,6 +11,12 @@ import {
   Query,
 } from "react-native-appwrite";
 import bcrypt from "react-native-bcrypt";
+import {
+  GoogleSignin,
+  statusCodes,
+  isSuccessResponse,
+  isErrorWithCode
+} from '@react-native-google-signin/google-signin';
 
 const DATABASE_ID = process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID!;
 const USERS_ID = process.env.EXPO_PUBLIC_APPWRITE_USERS_ID!;
@@ -192,50 +198,45 @@ export const getUserNotes = async (userId: string | null) => {
 };
 
 export const googleConnection = async () => {
-  // Create deep link that works across Expo environments
-  // Ensure localhost is used for the hostname to validation error for success/failure URLs
-  const deepLink = new URL(makeRedirectUri({ preferLocalhost: true }));
-  const scheme = `${deepLink.protocol}//`; // e.g. 'exp://' or 'appwrite-callback-<PROJECT_ID>://'
+try {
+    await GoogleSignin.hasPlayServices();
+    const response = await GoogleSignin.signIn();
+    if (isSuccessResponse(response)) {
+      const { idToken, user } = response.data;
 
-  // Start OAuth flow
-  const loginUrl = await account.createOAuth2Token(
-    OAuthProvider.Google,
-    `${deepLink}`,
-    `${deepLink}`
-  );
+      const existingUser = await database.listDocuments(DATABASE_ID, USERS_ID, [
+        Query.equal("email", [user.email]),   
+      ]);
 
-  // Open loginUrl and listen for the scheme redirect
-  const result = await WebBrowser.openAuthSessionAsync(`${loginUrl}`, scheme);
-
-  // Extract credentials from OAuth redirect URL
-  if (result.type === "success" && result.url) {
-    const url = new URL(result.url);
-    const secret = url.searchParams.get("secret");
-    const userId = url.searchParams.get("userId");
-
-    if (userId && secret) {
-      try {
-        // Vérifier d'abord si une session existe déjà
-        try {
-			const currentAccount = await account.get();
-			console.log("Existing session...");
-			// await account.deleteSession("current");
-			await SecureStore.setItemAsync("userId", currentAccount.$id);
-        } catch {
-			// Pas de session existante, on peut en créer une nouvelle
-			console.log("Creating new session...");
-			await account.createSession(userId, secret);
-			const currentAccount = await account.get();
-			await createUserDbGoogle(currentAccount.name, currentAccount.email, currentAccount.$id);
+      if (existingUser.documents.length === 0) {
+        if (user.name && user.email && user.id) {
+          await createUserDbGoogle(user.name, user.email, user.id);
         }
-      } catch (error) {
-        console.error("Session creation failed:", error);
-		return;
+      } else {
+        await SecureStore.setItemAsync("userId", existingUser.documents[0].$id);
+        await SecureStore.setItemAsync("authId", user.id);
       }
+      router.push("/(tabs)/profile");
+    } else {
+      // sign in was cancelled by user
     }
-    router.push("/(tabs)/profile");
+  } catch (error) {
+    if (isErrorWithCode(error)) {
+      switch (error.code) {
+        case statusCodes.IN_PROGRESS:
+          // operation (eg. sign in) already in progress
+          break;
+        case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+          // Android only, play services not available or outdated
+          break;
+        default:
+        // some other error happened
+      }
+    } else {
+      // an error that's not related to google sign in occurred
+    }
   }
-};
+}
 
 export const facebookConnection = async () => {
   // Create deep link that works across Expo environments
